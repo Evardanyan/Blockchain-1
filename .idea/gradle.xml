@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Blockchain/task" />
+            <option value="$PROJECT_DIR$/Blockchain/task/build/classes/java" />
+            <option value="$PROJECT_DIR$/Blockchain/task/build/generated/sources/annotationProcessor/java" />
+            <option value="$PROJECT_DIR$/Blockchain/task/build/generated/sources/headers/java" />
+            <option value="$PROJECT_DIR$/Blockchain/task/build/reports/tests" />
+            <option value="$PROJECT_DIR$/Blockchain/task/build/test-results" />
+            <option value="$PROJECT_DIR$/Blockchain/task/build/tmp" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Curried function" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Multifunctional mapper" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Reducer operator" />
+            <option value="$PROJECT_DIR$/Topics/Currying/String concatenation" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Memento/Mutations" />
+            <option value="$PROJECT_DIR$/Topics/Memento/Roll back" />
+            <option value="$PROJECT_DIR$/Topics/Memento/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Memento/Visualization of state" />
+            <option value="$PROJECT_DIR$/Topics/Queue and Stack/Creating queue" />
+            <option value="$PROJECT_DIR$/Topics/Queue and Stack/Getting the max element of a stack" />
+            <option value="$PROJECT_DIR$/Topics/Queue and Stack/Greedy load balance" />
+            <option value="$PROJECT_DIR$/Topics/Queue and Stack/Html Parser" />
+            <option value="$PROJECT_DIR$/Topics/Queue and Stack/The LIFO principle in action" />
+            <option value="$PROJECT_DIR$/Topics/Queue and Stack/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Queue and Stack/Which brackets are balanced" />
+            <option value="$PROJECT_DIR$/Topics/Queue and Stack/Working with queue" />
+            <option value="$PROJECT_DIR$/Topics/Stream pipelines/The sum of odd numbers" />
+            <option value="$PROJECT_DIR$/Topics/Stream pipelines/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Stream pipelines/Using streams many times" />
+            <option value="$PROJECT_DIR$/util" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

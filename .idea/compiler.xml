@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="17">
+      <module name="Blockchain.Blockchain-task-build-classes-java.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-generated-sources-annotationProcessor-java.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-generated-sources-headers-java.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-reports-tests.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-test-results.main" target="11" />
+      <module name="Blockchain.Blockchain-task-build-tmp.main" target="11" />
+      <module name="Blockchain.Blockchain-task.main" target="11" />
+      <module name="Blockchain.Topics-Currying-Curried_function.main" target="11" />
+      <module name="Blockchain.Topics-Currying-Multifunctional_mapper.main" target="11" />
+      <module name="Blockchain.Topics-Currying-Reducer_operator.main" target="11" />
+      <module name="Blockchain.Topics-Currying-String_concatenation.main" target="11" />
+      <module name="Blockchain.Topics-Currying-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Memento-Mutations.main" target="11" />
+      <module name="Blockchain.Topics-Memento-Roll_back.main" target="11" />
+      <module name="Blockchain.Topics-Memento-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Memento-Visualization_of_state.main" target="11" />
+      <module name="Blockchain.Topics-Queue_and_Stack-Creating_queue.main" target="11" />
+      <module name="Blockchain.Topics-Queue_and_Stack-Getting_the_max_element_of_a_stack.main" target="11" />
+      <module name="Blockchain.Topics-Queue_and_Stack-Greedy_load_balance.main" target="11" />
+      <module name="Blockchain.Topics-Queue_and_Stack-Html_Parser.main" target="11" />
+      <module name="Blockchain.Topics-Queue_and_Stack-The_LIFO_principle_in_action.main" target="11" />
+      <module name="Blockchain.Topics-Queue_and_Stack-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Queue_and_Stack-Which_brackets_are_balanced.main" target="11" />
+      <module name="Blockchain.Topics-Queue_and_Stack-Working_with_queue.main" target="11" />
+      <module name="Blockchain.Topics-Stream_pipelines-The_sum_of_odd_numbers.main" target="11" />
+      <module name="Blockchain.Topics-Stream_pipelines-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Stream_pipelines-Using_streams_many_times.main" target="11" />
+      <module name="Blockchain.util.main" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

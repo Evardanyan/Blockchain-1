@@ -1,0 +1,15 @@
+# Project exclude paths
+/.gradle/
+/Blockchain/task/build/
+/Blockchain/task/out/
+/Blockchain/task/out/production/classes/
+/Topics/Currying/Multifunctional mapper/out/
+/Topics/Currying/Multifunctional mapper/out/production/classes/
+/Topics/Memento/Mutations/out/
+/Topics/Memento/Mutations/out/production/classes/
+/Topics/Queue and Stack/Getting the max element of a stack/out/
+/Topics/Queue and Stack/Getting the max element of a stack/out/production/classes/
+/Topics/Queue and Stack/Greedy load balance/out/
+/Topics/Queue and Stack/Greedy load balance/out/production/classes/
+/Topics/Queue and Stack/Html Parser/out/
+/Topics/Queue and Stack/Html Parser/out/production/classes/

@@ -1,0 +1,410 @@
+type: edu
+custom_name: stage4
+files:
+- name: src/blockchain/Main.java
+  visible: true
+  text: "package blockchain;\nimport javax.print.DocFlavor;\nimport java.security.MessageDigest;\n\
+    import java.util.*;\nimport java.util.concurrent.*;\n\nclass Block {\n    int\
+    \ id;\n    String minerId = \"\";\n    String regulateN = \"\";\n    long timeStamp;\n\
+    \    String previousHash;\n    String hash;\n    String magicNumber;\n    long\
+    \ blockGenTime = 0;\n\n    public void setMinerId() {\n        this.minerId =\
+    \ minerId;\n    }\n\n    public void setRegulateN() {\n        this.regulateN\
+    \ = regulateN;\n    }\n\n\n    public long getBlockGenTime() {\n        return\
+    \ blockGenTime;\n    }\n    public void setBlockGenTime(long blockGenTime) {\n\
+    \        this.blockGenTime = blockGenTime;\n    }\n\n    public String getMagicNumber()\
+    \ {\n        return magicNumber;\n    }\n    public void setMagicNumber(String\
+    \ magicNumber) {\n        this.magicNumber = magicNumber;\n    }\n    public Block()\
+    \ {}\n    public int getId() {\n        return id;\n    }\n    public void setId(int\
+    \ id) {\n        this.id = id;\n    }\n    public long getTimeStamp() {\n    \
+    \    return timeStamp;\n    }\n    public void setTimeStamp(long timeStamp) {\n\
+    \        this.timeStamp = timeStamp;\n    }\n    public String getPreviousHash()\
+    \ {\n        return previousHash;\n    }\n    public void setPreviousHash(String\
+    \ previousHash) {\n        this.previousHash = previousHash;\n    }\n    public\
+    \ String getHash() {\n        return hash;\n    }\n    public void setHash(String\
+    \ hash) {\n        this.hash = hash;\n    }\n}\n\nclass   Blockchain {\n    Block\
+    \ block;\n//    static String regulateN = \"\";\n//    static String minerId =\
+    \ \"\";\n    static int howManyZero = 0;\n    String tmpHowManyZero = \"0\".repeat(howManyZero);\n\
+    \    String hashFromFields;\n    static String prevHash = \"0\";\n    static int\
+    \ tmpId = 0;\n    int tmpRandom = 0;\n    String tmpHash = \"\";\n    long tmpGenTime\
+    \ = 0;\n\n    public Block genBlockChain() {\n            if (block == null) {\n\
+    \                long start = System.nanoTime();\n                block = new\
+    \ Block();\n                do {\n                    tmpRandom = new Random().nextInt(999999999);\n\
+    \                    hashFromFields = String.valueOf(new Date().getTime()) + prevHash\
+    \ + String.valueOf(tmpRandom) + String.valueOf(tmpRandom);\n                 \
+    \   tmpHash = StringUtil.applySha256(hashFromFields);\n                } while\
+    \ (!tmpHash.startsWith(tmpHowManyZero));\n\n                block.setId(tmpId);\n\
+    \                block.setMagicNumber(String.valueOf(tmpRandom));\n          \
+    \      tmpId++;\n                block.setTimeStamp(new Date().getTime());\n \
+    \               block.setPreviousHash(prevHash);\n                block.setHash(tmpHash);\n\
+    \                prevHash = tmpHash;\n                long end = System.nanoTime();\n\
+    \                tmpGenTime = (end - start) / 1_000_000_000;\n               \
+    \ block.setBlockGenTime(tmpGenTime);\n                return block;\n        \
+    \    } else {\n                long start = System.nanoTime();\n             \
+    \   block = new Block();\n                do {\n                    tmpRandom\
+    \ = new Random().nextInt(999999);\n                    hashFromFields = String.valueOf(new\
+    \ Date().getTime()) + prevHash + String.valueOf(tmpRandom) + String.valueOf(tmpRandom);\n\
+    \                    tmpHash = StringUtil.applySha256(hashFromFields);\n     \
+    \           } while (!tmpHash.startsWith(tmpHowManyZero));\n\n               \
+    \ block.setId(tmpId);\n                block.setMagicNumber(String.valueOf(tmpRandom));\n\
+    \                tmpId++;\n                block.setTimeStamp(new Date().getTime());\n\
+    \                block.setPreviousHash(prevHash);\n                block.setHash(tmpHash);\n\
+    \                prevHash = tmpHash;\n                long end = System.nanoTime();\n\
+    \                tmpGenTime = (end - start) / 1_000_000_000;\n               \
+    \ block.setBlockGenTime(tmpGenTime);\n                return block;\n        \
+    \    }\n        }\n\n    public  boolean validateBlockChain(List<Block> blockList)\
+    \ {\n        for (int i = 1; i < blockList.size(); i++) {\n            if (blockList.get(i).previousHash\
+    \ == blockList.get(i - 1).hash) {\n                return  true;\n           \
+    \ }\n        }\n        return false;\n    }\n}\n\n\n\nclass StringUtil {\n  \
+    \  /* Applies Sha256 to a string and returns a hash. */\n    public static String\
+    \ applySha256(String input){\n        try {\n            MessageDigest digest\
+    \ = MessageDigest.getInstance(\"SHA-256\");\n            /* Applies sha256 to\
+    \ our input */\n            byte[] hash = digest.digest(input.getBytes(\"UTF-8\"\
+    ));\n            StringBuilder hexString = new StringBuilder();\n            for\
+    \ (byte elem: hash) {\n                String hex = Integer.toHexString(0xff &\
+    \ elem);\n                if(hex.length() == 1) hexString.append('0');\n     \
+    \           hexString.append(hex);\n            }\n            return hexString.toString();\n\
+    \        }\n        catch(Exception e) {\n            throw new RuntimeException(e);\n\
+    \        }\n    }\n}\n\npublic class Main {\n    public static void main(String[]\
+    \ args) throws InterruptedException, ExecutionException {\n        ExecutorService\
+    \ executorService = Executors.newFixedThreadPool(1);\n        Callable blockchainGen1\
+    \ = () -> {\n            long threadId = Thread.currentThread().getId();\n   \
+    \         Block block = new Blockchain().genBlockChain();\n            block.minerId\
+    \ = \"Created by miner # \" + threadId;\n            if (block.blockGenTime <\
+    \ 5) {\n                ++Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was increased to \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 60) {\n                --Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was decreased by \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 5 && block.blockGenTime < 60){\n                block.regulateN = \"N stays\
+    \ the same\";\n            }\n            return block;\n        };\n        Callable\
+    \ blockchainGen2 = () -> {\n            long threadId = Thread.currentThread().getId();\n\
+    \            Block block = new Blockchain().genBlockChain();\n            block.minerId\
+    \ = \"Created by miner # \" + threadId;\n            if (block.blockGenTime <\
+    \ 5) {\n                ++Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was increased to \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 60) {\n                --Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was decreased by \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 5 && block.blockGenTime < 60){\n                block.regulateN = \"N stays\
+    \ the same\";\n            }\n            return block;\n        };\n        Callable\
+    \ blockchainGen3 = () -> {\n            long threadId = Thread.currentThread().getId();\n\
+    \            Block block = new Blockchain().genBlockChain();\n            block.minerId\
+    \ = \"Created by miner # \" + threadId;\n            if (block.blockGenTime <\
+    \ 5) {\n                ++Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was increased to \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 60) {\n                --Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was decreased by \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 5 && block.blockGenTime < 60){\n                block.regulateN = \"N stays\
+    \ the same\";\n            }\n            return block;\n        };\n        Callable\
+    \ blockchainGen4 = () -> {\n            long threadId = Thread.currentThread().getId();\n\
+    \            Block block = new Blockchain().genBlockChain();\n            block.minerId\
+    \ = \"Created by miner # \" + threadId;\n            if (block.blockGenTime <\
+    \ 5) {\n                ++Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was increased to \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 60) {\n                --Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was decreased by \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 5 && block.blockGenTime < 60){\n                block.regulateN = \"N stays\
+    \ the same\";\n            }\n            return block;\n        };\n        Callable\
+    \ blockchainGen5 = () -> {\n            long threadId = Thread.currentThread().getId();\n\
+    \            Block block = new Blockchain().genBlockChain();\n            block.minerId\
+    \ = \"Created by miner # \" + threadId;\n            if (block.blockGenTime <\
+    \ 5) {\n                ++Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was increased to \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 60) {\n                --Blockchain.howManyZero;\n                block.regulateN\
+    \ = \"N was decreased by \" + Blockchain.howManyZero;\n            } else if (block.blockGenTime\
+    \ > 5 && block.blockGenTime < 60){\n                block.regulateN = \"N stays\
+    \ the same\";\n            }\n            return block;\n        };\n        Future<Block>\
+    \ blockGen1 = executorService.submit(blockchainGen1);\n//        if (blockGen1.isDone()\
+    \ && blockGen1.get().blockGenTime < 5) {\n//            ++Blockchain.howManyZero;\n\
+    //            blockGen1.get().regulateN = \"N was increased to \" + Blockchain.howManyZero;\n\
+    //        } else if (blockGen1.isDone() && blockGen1.get().blockGenTime > 60)\
+    \ {\n//            --Blockchain.howManyZero;\n//            blockGen1.get().regulateN\
+    \ = \"N was decreased by \" + Blockchain.howManyZero;\n//        } else if (blockGen1.isDone()\
+    \ && blockGen1.get().blockGenTime > 5 && blockGen1.get().blockGenTime < 60){\n\
+    //            blockGen1.get().regulateN = \"N stays the same\";\n//        }\n\
+    \n        Future<Block> blockGen2 = executorService.submit(blockchainGen2);\n\
+    //        if (blockGen2.isDone() && blockGen2.get().blockGenTime < 5) {\n//  \
+    \          ++Blockchain.howManyZero;\n//            blockGen2.get().regulateN\
+    \ = \"N was increased to \" + Blockchain.howManyZero;\n//        } else if (blockGen2.isDone()\
+    \ && blockGen2.get().blockGenTime > 60) {\n//            --Blockchain.howManyZero;\n\
+    //            blockGen2.get().regulateN = \"N was decreased by \" + Blockchain.howManyZero;\n\
+    //        } else if (blockGen2.isDone() && blockGen2.get().blockGenTime > 5 &&\
+    \ blockGen2.get().blockGenTime < 60) {\n//            blockGen2.get().regulateN\
+    \ = \"N stays the same\";\n//        }\n        \n        Future<Block> blockGen3\
+    \ = executorService.submit(blockchainGen2);\n//        if (blockGen3.isDone()\
+    \ && blockGen3.get().blockGenTime < 5) {\n//            ++Blockchain.howManyZero;\n\
+    //            blockGen3.get().regulateN = \"N was increased to \" + Blockchain.howManyZero;\n\
+    //        } else if (blockGen3.isDone() && blockGen3.get().blockGenTime > 60)\
+    \ {\n//            --Blockchain.howManyZero;\n//            blockGen3.get().regulateN\
+    \ = \"N was decreased by \" + Blockchain.howManyZero;\n//        } else if (blockGen3.isDone()\
+    \ && blockGen3.get().blockGenTime > 5 && blockGen3.get().blockGenTime < 60){\n\
+    //            blockGen3.get().regulateN = \"N stays the same\";\n//        }\n\
+    \        \n        Future<Block> blockGen4 = executorService.submit(blockchainGen4);\n\
+    //        if (blockGen4.isDone() && blockGen4.get().blockGenTime < 5) {\n//  \
+    \          ++Blockchain.howManyZero;\n//            blockGen4.get().regulateN\
+    \ = \"N was increased to \" + Blockchain.howManyZero;\n//        } else if (blockGen4.isDone()\
+    \ && blockGen4.get().blockGenTime > 60) {\n//            --Blockchain.howManyZero;\n\
+    //            blockGen4.get().regulateN = \"N was decreased by \" + Blockchain.howManyZero;\n\
+    //        } else if (blockGen4.isDone() && blockGen4.get().blockGenTime > 5 &&\
+    \ blockGen4.get().blockGenTime < 60){\n//            blockGen4.get().regulateN\
+    \ = \"N stays the same\";\n//        }\n        \n        Future<Block> blockGen5\
+    \ = executorService.submit(blockchainGen5);\n//        if (blockGen5.isDone()\
+    \ && blockGen5.get().blockGenTime < 5) {\n//            ++Blockchain.howManyZero;\n\
+    //            blockGen5.get().regulateN = \"N was increased to \" + Blockchain.howManyZero;\n\
+    //        } else if (blockGen5.isDone() && blockGen5.get().blockGenTime > 60)\
+    \ {\n//            --Blockchain.howManyZero;\n//            blockGen5.get().regulateN\
+    \ = \"N was decreased by \" + Blockchain.howManyZero;\n//        } else if (blockGen5.isDone()\
+    \ && blockGen5.get().blockGenTime > 5 && blockGen5.get().blockGenTime < 60){\n\
+    //            blockGen5.get().regulateN = \"N stays the same\";\n//        }\n\
+    \n        List<Block> blockList = new ArrayList<>();\n\n//        Scanner scanner\
+    \ = new Scanner(System.in);\n//        Blockchain.howManyZero = scanner.nextInt();\n\
+    //        System.out.println(\"Enter how many zeros the hash must start with:\
+    \ \" + Blockchain.howManyZero);\n\n//        blockList.add(new Blockchain().genBlockChain());\n\
+    //        blockList.add(new Blockchain().genBlockChain());\n//        blockList.add(new\
+    \ Blockchain().genBlockChain());\n//        blockList.add(new Blockchain().genBlockChain());\n\
+    //        blockList.add(new Blockchain().genBlockChain());\n//        blockList.add(new\
+    \ Blockchain().genBlockChain());\n        blockList.add(blockGen1.get());\n  \
+    \      blockList.add(blockGen2.get());\n        blockList.add(blockGen3.get());\n\
+    \        blockList.add(blockGen4.get());\n        blockList.add(blockGen5.get());\n\
+    \        for (int i = 0; i < blockList.size(); i++) {\n            System.out.println(\"\
+    Block:\");\n            System.out.println(blockList.get(i).minerId);\n      \
+    \      System.out.println(\"Id:\" + \"  \" + blockList.get(i).getId());\n    \
+    \        System.out.println(\"Timestamp:\"  + blockList.get(i).getTimeStamp());\n\
+    \            System.out.println(\"Magic number:\"  + blockList.get(i).getMagicNumber());\n\
+    \            System.out.println(\"Hash of the previous block:\");\n          \
+    \  System.out.println(blockList.get(i).getPreviousHash());\n            System.out.println(\"\
+    Hash of the block:\");\n            System.out.println(blockList.get(i).getHash());\n\
+    \            System.out.println(\"Block was generating for \" + blockList.get(i).blockGenTime\
+    \ + \" seconds\");\n            System.out.println(blockList.get(i).regulateN);\n\
+    \            System.out.println(\"\\n\");\n        }\n        executorService.shutdown();\n\
+    \    }\n}\n\n\n"
+  learner_created: false
+- name: test/BlockchainTest.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testcase.TestCase;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.stream.Collectors;
+
+
+    class BlockParseException extends Exception {
+        BlockParseException(String msg) {
+            super(msg);
+        }
+    }
+
+
+    class Block {
+
+        int id;
+        long timestamp;
+        long magic;
+        String hashprev;
+        String hash;
+
+        static Block parseBlock(String strBlock) throws BlockParseException {
+            if (strBlock.length() == 0) {
+                return null;
+            }
+
+            if (!(strBlock.contains("Block:")
+                && strBlock.contains("Timestamp:"))) {
+
+                return null;
+            }
+
+            Block block = new Block();
+
+            List<String> lines = strBlock
+                .lines()
+                .map(String::strip)
+                .filter(e -> e.length() > 0)
+                .collect(Collectors.toList());
+
+            if (lines.size() < 12) {
+                throw new BlockParseException("Every block should " +
+                    "contain at least 12 lines of data");
+            }
+
+            if (!lines.get(0).equals("Block:")) {
+                throw new BlockParseException("First line of every block " +
+                    "should be \"Block:\"");
+            }
+
+            if (!lines.get(1).startsWith("Created by")) {
+                throw new BlockParseException("Second line of every block " +
+                    "should start with \"Created by\"");
+            }
+
+            if (!lines.get(2).startsWith("Id:")) {
+                throw new BlockParseException("Third line of every block " +
+                    "should start with \"Id:\"");
+            }
+
+            String id = lines.get(2).split(":")[1]
+                .strip().replace("-", "");
+            boolean isNumeric = id.chars().allMatch(Character::isDigit);
+
+            if (!isNumeric) {
+                throw new BlockParseException("Id should be a number");
+            }
+
+            block.id = Integer.parseInt(id);
+
+
+
+            if (!lines.get(3).startsWith("Timestamp:")) {
+                throw new BlockParseException("4-th line of every block " +
+                    "should start with \"Timestamp:\"");
+            }
+
+            String timestamp = lines.get(3).split(":")[1]
+                .strip().replace("-", "");
+            isNumeric = timestamp.chars().allMatch(Character::isDigit);
+
+            if (!isNumeric) {
+                throw new BlockParseException("Timestamp should be a number");
+            }
+
+            block.timestamp = Long.parseLong(timestamp);
+
+
+            if (!lines.get(4).startsWith("Magic number:")) {
+                throw new BlockParseException("5-th line of every block " +
+                    "should start with \"Magic number:\"");
+            }
+
+            String magic = lines.get(4).split(":")[1]
+                .strip().replace("-", "");
+            isNumeric = magic.chars().allMatch(Character::isDigit);
+
+            if (!isNumeric) {
+                throw new BlockParseException("Magic number should be a number");
+            }
+
+            block.magic = Long.parseLong(magic);
+
+
+
+            if (!lines.get(5).equals("Hash of the previous block:")) {
+                throw new BlockParseException("6-th line of every block " +
+                    "should be \"Hash of the previous block:\"");
+            }
+
+            if (!lines.get(7).equals("Hash of the block:")) {
+                throw new BlockParseException("8-th line of every block " +
+                    "should be \"Hash of the block:\"");
+            }
+
+            String prevhash = lines.get(6).strip();
+            String hash = lines.get(8).strip();
+
+            if (!(prevhash.length() == 64 || prevhash.equals("0"))
+                || !(hash.length() == 64)) {
+
+                throw new BlockParseException("Hash length should " +
+                    "be equal to 64 except \"0\"");
+            }
+
+            block.hash = hash;
+            block.hashprev = prevhash;
+
+            if (!lines.get(9).startsWith("Block data:")) {
+                throw new BlockParseException("10-th line of every block " +
+                    "should start with \"Block data:\"");
+            }
+
+            return block;
+        }
+
+
+        static List<Block> parseBlocks(String output) throws BlockParseException {
+            String[] strBlocks = output.split("\n\n");
+
+            List<Block> blocks = new ArrayList<>();
+
+            for (String strBlock : strBlocks) {
+                Block block = parseBlock(strBlock.strip());
+                if (block != null) {
+                    blocks.add(block);
+                }
+            }
+
+            return blocks;
+        }
+    }
+
+    class Clue {
+        String zeros;
+        Clue(int n) {
+            zeros = "0".repeat(n);
+        }
+    }
+
+
+    public class BlockchainTest extends StageTest<Clue> {
+
+        List<String> previousOutputs = new ArrayList<>();
+
+        @Override
+        public List<TestCase<Clue>> generate() {
+            return List.of(
+                new TestCase<>(),
+                new TestCase<>()
+            );
+        }
+
+        @Override
+        public CheckResult check(String reply, Clue clue) {
+
+            if (previousOutputs.contains(reply)) {
+                return new CheckResult(false,
+                    "You already printed this text in the previous tests");
+            }
+
+            previousOutputs.add(reply);
+
+            List<Block> blocks;
+            try {
+                blocks = Block.parseBlocks(reply);
+            } catch (BlockParseException ex) {
+                return new CheckResult(false, ex.getMessage());
+            } catch (Exception ex) {
+                return CheckResult.wrong("");
+            }
+
+            if (blocks.size() != 5) {
+                return new CheckResult(false,
+                    "You should output 5 blocks, found " + blocks.size());
+            }
+
+            for (int i = 1; i < blocks.size(); i++) {
+                Block curr = blocks.get(i - 1);
+                Block next = blocks.get(i);
+
+                if (curr.id + 1 != next.id) {
+                    return new CheckResult(false,
+                        "Id`s of blocks should increase by 1");
+                }
+
+                if (next.timestamp < curr.timestamp) {
+                    return new CheckResult(false,
+                        "Timestamp`s of blocks should increase");
+                }
+
+                if (!next.hashprev.equals(curr.hash)) {
+                    return new CheckResult(false, "Two hashes aren't equal, " +
+                        "but should");
+                }
+            }
+
+
+            return CheckResult.correct();
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/5416#comment
+status: Solved
+record: 4
