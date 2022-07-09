@@ -41,19 +41,19 @@ public class GenerateKeys {
         fos.close();
     }
 
-    public static void main(String[] args) {
-        GenerateKeys gk;
-        try {
-            gk = new GenerateKeys(1024);
-            gk.createKeys();
-            gk.writeToFile("KeyPair/publicKey", gk.getPublicKey().getEncoded());
-            gk.writeToFile("KeyPair/privateKey", gk.getPrivateKey().getEncoded());
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-            System.err.println(e.getMessage());
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-
-    }
+//    public static void main(String[] args) {
+//        GenerateKeys gk;
+//        try {
+//            gk = new GenerateKeys(1024);
+//            gk.createKeys();
+//            gk.writeToFile("KeyPair/publicKey", gk.getPublicKey().getEncoded());
+//            gk.writeToFile("KeyPair/privateKey", gk.getPrivateKey().getEncoded());
+//        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+//            System.err.println(e.getMessage());
+//        } catch (IOException e) {
+//            System.err.println(e.getMessage());
+//        }
+//
+//    }
 
 }

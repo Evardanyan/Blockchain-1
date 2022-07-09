@@ -17,21 +17,22 @@ public class Message {
     //The constructor of Message class builds the list that will be written to the file.
     //The list consists of the message and the signature.
     public Message(String data, String keyFile) throws InvalidKeyException, Exception {
-        list = new ArrayList<byte[]>();
+        list = new ArrayList<>();
         list.add(data.getBytes());
         list.add(sign(data, keyFile));
     }
 
     //The method that signs the data using the private key that is stored in keyFile path
-    public byte[] sign(String data, String keyFile) throws InvalidKeyException, Exception{
+    public static byte[] sign(String data, String keyFile) throws InvalidKeyException, Exception{
         Signature rsa = Signature.getInstance("SHA1withRSA");
         rsa.initSign(getPrivate(keyFile));
         rsa.update(data.getBytes());
         return rsa.sign();
     }
 
+
     //Method to retrieve the Private Key from a file
-    public PrivateKey getPrivate(String filename) throws Exception {
+    public static PrivateKey getPrivate(String filename) throws Exception {
         byte[] keyBytes = Files.readAllBytes(new File(filename).toPath());
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -48,9 +49,9 @@ public class Message {
         System.out.println("Your file is ready.");
     }
 
-    public static void main(String[] args) throws InvalidKeyException, IOException, Exception{
-        String data = JOptionPane.showInputDialog("Type your message here");
-
-        new Message(data, "MyKeys/privateKey").writeToFile("MyData/SignedData.txt");
-    }
+//    public static void main(String[] args) throws InvalidKeyException, IOException, Exception{
+//        String data = JOptionPane.showInputDialog("Type your message here");
+//
+//        new Message(data, "KeyPair/privateKey").writeToFile("MyData/SignedData.txt");
+//    }
 }
